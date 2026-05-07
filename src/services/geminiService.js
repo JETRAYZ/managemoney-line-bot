@@ -79,7 +79,9 @@ function sanitizeResult(parsed, originalText) {
   // Validate type
   if (!['รายรับ', 'รายจ่าย'].includes(parsed.type)) {
     parsed.type = keywordType;
-    parsed.confidence = Math.min(parsed.confidence || 0.5, 0.6);
+  } else if (parsed.type === 'รายจ่าย' && keywordType === 'รายรับ') {
+    // ถ้า keyword บอกว่ารายรับ แต่ AI บอกรายจ่าย ให้ใช้ตาม keyword
+    parsed.type = 'รายรับ';
   }
 
   // Validate category
