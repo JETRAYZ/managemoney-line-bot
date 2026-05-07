@@ -34,6 +34,9 @@ function buildSystemPrompt(today, yesterday) {
 - จำนวนเงินเป็นตัวเลขล้วน ตัด comma, "บาท", หน่วยทิ้ง
 - จำนวนเงินเป็นตัวเลขล้วน (ถ้ามีเครื่องหมาย + ให้ถือว่าเป็นรายรับ, - ให้ถือว่าเป็นรายจ่าย) ตัด comma และหน่วยทิ้ง
 
+"Strictly classify as 'รายรับ' if you see words like 'ขาย', 'ได้เงิน', 'อั่งเปา', 'รายรับ' or a '+' sign. 
+If the user says 'ขายส้มได้ 200', item is 'ขายส้ม', amount is 200, type is 'รายรับ'."
+
 หมวดที่ใช้ได้: ${ALL_CATEGORIES.join(', ')}
 
 JSON schema:
