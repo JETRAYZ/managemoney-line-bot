@@ -45,7 +45,7 @@ const INCOME_CATEGORIES = [
 
 // ─── Keywords สำหรับแยกรายรับ / รายจ่าย ────────────────
 const EXPENSE_KEYWORDS = ['ซื้อ', 'กิน', 'จ่าย', 'ค่า', 'เติม', 'ชำระ', 'สั่ง', 'จอง', 'โอนให้', 'โอนไป', 'หักบัญชี', 'สมัคร', 'ต่ออายุ'];
-const INCOME_KEYWORDS = ['เงินเดือน', 'โบนัส', 'ขายได้', 'ลูกค้าโอน', 'ได้เงิน', 'รายได้', 'ค่าคอม', 'ให้เงิน', 'โอนมา', 'เงินเข้า', 'รับเงิน', 'รับมา', 'คืนเงิน'];
+const INCOME_KEYWORDS = ['เงินเดือน', 'โบนัส', 'ขายได้', 'ขายของ', 'ขาย', 'ลูกค้าโอน', 'ได้เงิน', 'รายได้', 'ค่าคอม', 'ให้เงิน', 'โอนมา', 'เงินเข้า', 'รับเงิน', 'รับมา', 'คืนเงิน', 'อั่งเปา', 'ถูกหวย', 'ถูกรางวัล', 'ได้รางวัล', 'ได้รับ', '+'];
 
 // ─── หมวดทั้งหมดที่ Gemini ใช้ได้ ──────────────────────
 const ALL_CATEGORIES = [
@@ -81,7 +81,11 @@ function categorizeByKeyword(text, type) {
  * Fallback: แยกรายรับ/รายจ่ายจาก keyword
  */
 function classifyByKeyword(text) {
-  const normalizedText = String(text || '').toLowerCase();
+  const normalizedText = String(text || '').toLowerCase().trim();
+
+  // เช็คเครื่องหมาย + นำหน้าหรือต่อท้ายตัวเลข
+  if (normalizedText.includes('+')) return 'รายรับ';
+  if (normalizedText.includes('ได้รับ')) return 'รายรับ';
 
   for (const kw of INCOME_KEYWORDS) {
     if (normalizedText.includes(String(kw).toLowerCase())) return 'รายรับ';
